@@ -1,15 +1,17 @@
 #!/bin/bash
 
-cd /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/rootfiles/
+export X509_USER_PROXY=/afs/cern.ch/user/j/jcoulter/x509_user_proxy/proxy
+
+cd /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/
 #cmsenv
 eval `scramv1 runtime -sh`
 
 #Added by Ian
-export X509_USER_PROXY=~/x509_user_proxy/proxy
-voms-proxy-init --noregen
+#export X509_USER_PROXY=~/x509_user_proxy/proxy
+#voms-proxy-init --noregen
 #</Ian>
 
-cd /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/rootfiles/
+cd /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/SummerRutgers15/
 
 echo "root -l -b -q thrust_HiForest.C++"
 echo "First = $FIRST and last file = $LAST"   
