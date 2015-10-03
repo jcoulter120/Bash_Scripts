@@ -6,8 +6,9 @@ eval `scramv1 runtime -sh`
 
 cd /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/GeneratorInterface
 
-nJewelDijet=11
-export nEvents=75
+#export nJewelSet=0; 
+nJewelDijet=12
+export nEvents=1000
 jobNum=0
 
 i=0
@@ -88,7 +89,7 @@ do
 	    echo $high
 	    ;;
 esac
-    bsub -R "pool>300000" -M 300000 -q 1nd -J job_${jobNum} < /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/SummerRutgers15/Bash_Scripts/Batch_Scripts/JewelSubmit.sh
+    bsub -R "pool>300000" -M 300000 -q 1nd -J job_${jobNum}_${nJewelSet} < /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/SummerRutgers15/Bash_Scripts/Batch_Scripts/JewelSubmit.sh
     let "i++"
     let "jobNum++"
 done
