@@ -20,6 +20,12 @@ cp out.log ../../LOG/${medType}_${jobNumber}_numEvents${nEvents}_set${nJewelSet}
 cp ${medType}_Jewel_${jobNumber}_numEvents${nEvents}_set${nJewelSet}.log ../LOG/.
 cp out.hepmc ../../HEPMC/${medType}_${jobNumber}_numEvents${nEvents}_set${nJewelSet}.hepmc
 cp ${medType}_JewelDijet_${jobNumber}_numEvent${nEvents}_set${nJewelSet}.root ../ROOT/.
-cd ../../
+
+#cd ../
+
 #rm ${jobNumber}_numEvents${nEvents}/ -rf
-#xrdcp JewelDijet_${jobNumber}_numEvent${nEvents}.root root://eosuser.cern.ch://eos/user/i/ihuntisa/
+xrdcp ${medType}_${low}_${high}_JewelDijet_${jobNumber}_set${nJewelSet}_numEvents${nEvents}.root root://eosuser.cern.ch://eos/user/j/jcoulter/MonteCarlo/${medType}_${jobNumber}_numEvents${nEvents}/
+
+rm ${medType}_${low}_${high}_JewelDijet_${jobNumber}_set${nJewelSet}_numEvents${nEvents}.root
+
+

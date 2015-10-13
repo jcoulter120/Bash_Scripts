@@ -2,7 +2,7 @@ cd /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/
 
 eval `scramv1 runtime -sh`
 
-export nEvents=10000;
+export nEvents=1000;
 nJewelDijet=12;
 medType="med5"
 
