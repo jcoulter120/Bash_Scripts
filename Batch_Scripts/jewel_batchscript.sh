@@ -6,7 +6,8 @@ eval `scramv1 runtime -sh`
 
 cd /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/GeneratorInterface
 
-#export nJewelSet=0; 
+#export nJewelSet=0;
+medType="med5"
 nJewelDijet=12
 export nEvents=1000
 jobNum=0
@@ -88,10 +89,30 @@ do
 	    echo $low
 	    echo $high
 	    ;;
-esac
-    bsub -R "pool>300000" -M 300000 -q 1nd -J job_${jobNum}_${nJewelSet} < /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/SummerRutgers15/Bash_Scripts/Batch_Scripts/JewelSubmit.sh
-    let "i++"
-    let "jobNum++"
+    esac
+
+    xrdcp root://eosuser.cern.ch://eos/user/j/jcoulter/MonteCarlo/${medType}_${jobNumber}_numEvent${nEvents}/${medType}_${low}_${high}_JewelDijet_${jobNumber}_set${nJewelSet}_numEvent${nEvents}.root ${medType}_${low}_${high}_JewelDijet_${jobNumber}_set${nJewelSet}_numEvent${nEvents}.root
+
+    file=${medType}_${low}_${high}_JewelDijet_${jobNumber}_set${nJewelSet}_numEvent${nEvents}.root
+    if [ ! -e $file ]
+       let "i++"
+       let "jobNum++"
+       continue
+    fi
+    minimumsize=800000
+    actualsize=$(wc -c <"$file")
+    rm ${medType}_${low}_${high}_JewelDijet_${jobNumber}_set${nJewelSet}_numEvent${nEvents}.root
+    if [ $actualsize -ge $minimumsize ]; then
+	echo $actualsize size is over $minimumsize bytes IGNORE
+	let "i++"
+	let "jobNum++"
+        continue
+    else
+	echo $actualsize size is under $minimumsize bytes RUN
+	bsub -R "pool>300000" -M 300000 -q 1nw -J job_${jobNum}_${nJewelSet} < /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/SummerRutgers15/Bash_Scripts/Batch_Scripts/JewelSubmit.sh
+	let "i++"
+	let "jobNum++"
+    fi
 done
 
 cd /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/SummerRutgers15/Bash_Scripts/Batch_Scripts

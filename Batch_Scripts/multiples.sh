@@ -1,6 +1,6 @@
 #!/bin/bash
-nJewelSet=0; 
-nJewelSetDone=1;
+nJewelSet=10; 
+nJewelSetDone=100;
 
 echo "Running:    $nJewelSetDone Sets"
 

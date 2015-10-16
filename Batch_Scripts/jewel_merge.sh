@@ -2,7 +2,7 @@ cd /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/
 
 eval `scramv1 runtime -sh`
 
-export nEvents=10000;
+export nEvents=1000;
 nJewelDijet=12;
 medType="med5"
 
@@ -65,7 +65,7 @@ do
     
     cd /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/GeneratorInterface/outputs/${medType}_${i}_numEvents${nEvents};
 
-    hadd -f ${medType}_${low}_${high}_JewelDijet_${i}_numEvents${nEvents}.root ${medType}_${low}_${high}_JewelDijet_${i}_set*_numEvent${nEvents}.root
+    hadd -f ${medType}_${low}_${high}_JewelDijet_${i}_numEvent${nEvents}.root ${medType}_${low}_${high}_JewelDijet_${i}_set*_numEvent${nEvents}.root
     let "i++"
 done
 
