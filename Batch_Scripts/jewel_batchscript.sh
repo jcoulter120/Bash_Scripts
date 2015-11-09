@@ -7,7 +7,7 @@ eval `scramv1 runtime -sh`
 cd /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/GeneratorInterface
 
 #export nJewelSet=0;
-medType="med5"
+medType="med10"
 nJewelDijet=12
 export nEvents=1000
 jobNum=0
@@ -90,26 +90,35 @@ do
 	    echo $high
 	    ;;
     esac
-
+    
+    echo "root://eosuser.cern.ch://eos/user/j/jcoulter/MonteCarlo/${medType}_${jobNumber}_numEvent${nEvents}/${medType}_${low}_${high}_JewelDijet_${jobNumber}_set${nJewelSet}_numEvent${nEvents}.root" >> jewel_files_1k.txt
+    
     xrdcp root://eosuser.cern.ch://eos/user/j/jcoulter/MonteCarlo/${medType}_${jobNumber}_numEvent${nEvents}/${medType}_${low}_${high}_JewelDijet_${jobNumber}_set${nJewelSet}_numEvent${nEvents}.root ${medType}_${low}_${high}_JewelDijet_${jobNumber}_set${nJewelSet}_numEvent${nEvents}.root
 
+    #CHECK EXISTENCE
     file=${medType}_${low}_${high}_JewelDijet_${jobNumber}_set${nJewelSet}_numEvent${nEvents}.root
-    if [ ! -e $file ]
-       let "i++"
-       let "jobNum++"
-       continue
+    if [ ! -e $file ]; then
+	bsub -R "pool>300000" -M 300000 -q 1nd -J job_${jobNum}_${nJewelSet} < /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/SummerRutgers15/Bash_Scripts/Batch_Scripts/JewelSubmit.sh
+	let "i++"
+	let "jobNum++"
+	continue
     fi
+    
+    #CHECK SIZE 
     minimumsize=800000
     actualsize=$(wc -c <"$file")
-    rm ${medType}_${low}_${high}_JewelDijet_${jobNumber}_set${nJewelSet}_numEvent${nEvents}.root
+
     if [ $actualsize -ge $minimumsize ]; then
 	echo $actualsize size is over $minimumsize bytes IGNORE
 	let "i++"
 	let "jobNum++"
+	rm $file
         continue
     else
 	echo $actualsize size is under $minimumsize bytes RUN
-	bsub -R "pool>300000" -M 300000 -q 1nw -J job_${jobNum}_${nJewelSet} < /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/SummerRutgers15/Bash_Scripts/Batch_Scripts/JewelSubmit.sh
+	eos rm /eos/user/j/jcoulter/MonteCarlo/${medType}_${jobNumber}_numEvent${nEvents}/${medType}_${low}_${high}_JewelDijet_${jobNumber}_set${nJewelSet}_numEvent${nEvents}.root
+	bsub -R "pool>300000" -M 300000 -q 1nd -J job_${jobNum}_${nJewelSet} < /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/SummerRutgers15/Bash_Scripts/Batch_Scripts/JewelSubmit.sh
+	rm $file
 	let "i++"
 	let "jobNum++"
     fi
