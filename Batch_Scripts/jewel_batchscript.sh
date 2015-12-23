@@ -9,7 +9,7 @@ cd /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/GeneratorInterface
 #export nJewelSet=0;
 medType="med10"
 nJewelDijet=12
-export nEvents=1000
+export nEvents=5000
 jobNum=0
 
 i=0

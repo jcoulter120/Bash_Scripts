@@ -1,6 +1,12 @@
 #!/bin/bash
-nJewelSet=10; 
-nJewelSetDone=100;
+nJewelSet=0; 
+nJewelSetDone=60;
+
+cd ../../../GeneratorInterface/
+
+echo > jewel_files_1k.txt
+
+cd ../SummerRutgers15/Bash_Scripts/BatchScripts/
 
 echo "Running:    $nJewelSetDone Sets"
 

@@ -5,9 +5,8 @@ eval `scramv1 runtime -sh`
 cd /afs/cern.ch/work/j/jcoulter/WORK/CMSSW_5_3_20/src/GeneratorInterface
 
 echo "JewelDijet   $jobNumber   Set: $nJewelSet"
-export ReplaceOnlyBad=1
 cd outputs/
-medType="med5"
+medType="med10"
 mkdir ${medType}_${jobNumber}_numEvent${nEvents}/
 cd ${medType}_${jobNumber}_numEvent${nEvents}/
 cp ../../../GeneratorInterface/JewelInterface/test/medium-params.dat .
@@ -28,5 +27,7 @@ cp ${medType}_JewelDijet_${jobNumber}_numEvent${nEvents}_set${nJewelSet}.root ..
 xrdcp ${medType}_${low}_${high}_JewelDijet_${jobNumber}_set${nJewelSet}_numEvent${nEvents}.root root://eosuser.cern.ch://eos/user/j/jcoulter/MonteCarlo/${medType}_${jobNumber}_numEvent${nEvents}/${medType}_${low}_${high}_JewelDijet_${jobNumber}_set${nJewelSet}_numEvent${nEvents}.root
 
 rm ${medType}_${low}_${high}_JewelDijet_${jobNumber}_set${nJewelSet}_numEvent${nEvents}.root
+
+rm core.*
 
 #fi
